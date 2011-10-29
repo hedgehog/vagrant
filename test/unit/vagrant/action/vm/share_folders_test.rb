@@ -120,7 +120,7 @@ class ShareFoldersVMActionTest < Test::Unit::TestCase
     setup do
       @folders = stub_shared_folders(<<-sf)
         config.vm.share_folder("foo", "fooguest", "foohost", :owner => "yo", :group => "fo")
-        config.vm.share_folder("bar", "barguest", "barhost", :owner => "foo", :group => "bar")
+        config.vm.share_folder("bar", "barguestt", "barhost", :owner => "foo", :group => "bar")
         config.vm.share_folder("foo_no_mount", nil, "foohost2")
       sf
       @ssh = mock("ssh")
@@ -130,6 +130,7 @@ class ShareFoldersVMActionTest < Test::Unit::TestCase
 
     should "mount all shared folders to the VM" do
       mount_seq = sequence("mount_seq")
+      @ssh.expects(:exit).once
       @folders.each do |name, data|
         if data[:guestpath]
           @vm.system.expects(:mount_shared_folder).with(@ssh, name, data[:guestpath], data[:owner], data[:group]).in_sequence(mount_seq)
