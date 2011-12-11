@@ -1,5 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
+require 'rake/dsl_definition'
+include Rake::DSL if defined?(Rake::DSL)
 require 'rake/testtask'
 Bundler::GemHelper.install_tasks
 
